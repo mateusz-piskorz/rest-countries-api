@@ -2,7 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 import { ReactComponent as Loupe } from '../../asset/loupe.svg'
 import { useSelector, useDispatch } from 'react-redux'
-import { setFilters } from '../../redux/ducks/app'
+import { setFilters, changePage } from '../../redux/ducks/app'
+import { ReactComponent as RemoveIco } from '../../asset/removeIco.svg'
 
 const Wrapper = styled.form`
 ,& > input{
@@ -50,6 +51,11 @@ align-items: center;
         &:hover{
             opacity: .8;
         }
+        &:nth-child(3){
+            display: block;
+            margin-left: 0px;
+            margin-right: 20px;
+        }
     }
     ${p=>p.theme.media.mobile1}{
         & > input{
@@ -72,6 +78,7 @@ export default function SearchInput() {
         e.preventDefault()
         const country = e.target.children[1].value.trim()
         if(country){
+            dispatch(changePage(1))
             dispatch(setFilters({name: 'searchedCountry', value: country}))
             e.target.children[1].value = ""
         }
@@ -80,6 +87,7 @@ export default function SearchInput() {
         <Wrapper onSubmit={searchHandler} darkMode={darkMode}>
             <Loupe />
             <input type="text" placeholder={searchedCountry ? searchedCountry : "Search for a country..."} />
+            <RemoveIco onClick={()=>dispatch(setFilters({name: 'searchedCountry', value: ""}))} />
         </Wrapper>
     )
 }

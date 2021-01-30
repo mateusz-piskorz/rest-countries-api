@@ -21,7 +21,7 @@ function App() {
       <Header />
 
       <Switch>
-        <Route path="/country/:id" exact>
+        <Route path="/country/:countryIdName" exact>
           <Country />
         </Route>
         <Route path="/" exact>

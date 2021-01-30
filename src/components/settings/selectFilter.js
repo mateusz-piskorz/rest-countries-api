@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { ReactComponent as ArrowDown } from '../../asset/arrowDown.svg'
 import { useSelector, useDispatch } from 'react-redux'
-import { switchState, setFilters } from '../../redux/ducks/app'
+import { switchState, setFilters, changePage } from '../../redux/ducks/app'
 
 const Wrapper = styled.div`
 & > div, & > div > p, & > div > span{
@@ -65,6 +65,7 @@ const SelectFilter = ()=> {
     const darkMode = useSelector(state=>state.app.darkMode)
     const dispatch = useDispatch()
     const filtersHandler = (filterValue)=>{
+        dispatch(changePage(1))
         dispatch(setFilters({name: 'regionFilter', value: filterValue}))
         dispatch(switchState('filterEject'))
     }
@@ -77,8 +78,10 @@ const SelectFilter = ()=> {
             <div>
                 <span onClick={()=>filtersHandler('Filter by Region')}>All</span>
                 <span onClick={()=>filtersHandler('Africa')}>Africa</span>
-                <span onClick={()=>filtersHandler('America')}>America</span>
-                <span onClick={()=>filtersHandler('Europa')}>Europa</span>
+                <span onClick={()=>filtersHandler('Americas')}>Americas</span>
+                <span onClick={()=>filtersHandler('Asia')}>Asia</span>
+                <span onClick={()=>filtersHandler('Europe')}>Europa</span>
+                <span onClick={()=>filtersHandler('Oceania')}>Oceania</span>
             </div>
         </Wrapper>
     )

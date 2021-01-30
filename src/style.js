@@ -7,6 +7,7 @@ export const color5 = '#FAFAFA'
 
 export const media = {
     desktop1: '@media (min-width: 768px)',
+    desktop2: '@media (min-width: 1300px)',
     maxWidth: '@media (min-width: 1560px)',
     mobile1: '@media (min-width: 400px)',
 }
