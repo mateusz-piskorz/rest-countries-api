@@ -12,11 +12,11 @@ const Wrapper = styled.button`
     ${p=>p.darkMode ? p.theme.darkModeCss : p.theme.whiteModeCss};
     box-shadow: 0px 0px 5px 5px rgba(0,0,0,${p=>p.darkMode ? '.2' : '.07'});
     width: 140px;
-    padding: 10px 30px;
     &:hover{
         opacity: .8;
     }
     & > a{
+        padding: 10px 30px;
         text-decoration: none;
         color: ${p=>p.darkMode ? 'white' : p.theme.color3 };
         display: flex;

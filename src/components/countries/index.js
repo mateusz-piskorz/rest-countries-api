@@ -37,7 +37,6 @@ export default function Countries() {
 
     const countriesRes = paginationFilter.map((country, index)=><Country key={index} country={country} />)
 
-    
     return (
         <Wrapper >
             <div>

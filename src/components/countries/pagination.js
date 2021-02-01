@@ -33,12 +33,18 @@ export default function Pagination() {
         if(nextPage!==0 && nextPage!==Math.ceil(allCountries.length/itemsPerPage)+1){
             dispatch(changePage(nextPage))
         }
-    } 
-    return (
-        <Wrapper darkMode={darkMode}>
-            <span onClick={()=>changePageClickHandler(currentPage-1)} >previous</span>
-            <span >{currentPage}</span>
-            <span onClick={()=>changePageClickHandler(currentPage+1)} >next</span>
-        </Wrapper>
-    )
+    }
+    
+    if(allCountries.length){
+        return (
+            <Wrapper darkMode={darkMode}>
+                <span onClick={()=>changePageClickHandler(currentPage-1)}>previous</span>
+                <span >{currentPage}</span>
+                <span onClick={()=>changePageClickHandler(currentPage+1)}>next</span>
+            </Wrapper>
+        )
+    }else{
+        return null
+    }
+    
 }

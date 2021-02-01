@@ -19,7 +19,6 @@ function App() {
     <Router>
     <Wrapper darkMode={darkMode}>
       <Header />
-
       <Switch>
         <Route path="/country/:countryIdName" exact>
           <Country />
