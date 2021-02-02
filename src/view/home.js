@@ -10,6 +10,7 @@ export default function Home() {
     const fetching = useSelector(state=>state.app.allCountriesLoading)
     const dispatch = useDispatch()
     useEffect(()=>{
+        console.log(fetching)
         if(fetching === false){
             if(regionTab[regionTabHelper]){
                 dispatch(getAllCountries({case:'all', parameters:regionTab[regionTabHelper]}))

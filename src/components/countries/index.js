@@ -27,7 +27,7 @@ export default function Countries() {
     const searchFilter = useSelector(state=>state.app.searchedCountry)
 
     const filteredByRegion = allCountries.filter(e=>regionFilter==="Filter by Region" ? e : e.region === regionFilter ? e : null)
-    const filteredBySearch = filteredByRegion.filter(e=>searchFilter==="" ? e : e.name.includes(searchFilter) ? e : null)
+    const filteredBySearch = filteredByRegion.filter(e=>searchFilter==="" ? e : e.name.toLowerCase().includes(searchFilter.toLowerCase()) ? e : null)
 
     const indexOfLastItem = currentPage * itemsPerPage
     const indexOfFirstItem = indexOfLastItem - itemsPerPage

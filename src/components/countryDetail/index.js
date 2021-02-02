@@ -5,6 +5,9 @@ import { getSelectedCountry } from '../../redux/ducks/app'
 import { useParams } from 'react-router-dom'
 
 const Wrapper = styled.div`
+& > h1{
+    margin: auto;
+}
     color: ${p=>p.darkMode ? 'white' : p.theme.color3};
     margin: auto;
     margin-top: 50px;
@@ -109,66 +112,77 @@ export default function CountryDetail() {
     const dispatch = useDispatch()
     const darkMode = useSelector(state=>state.app.darkMode)
     const info = useSelector(state=>state.app.selectedConutry)
-    console.log(info)
+    const loading = useSelector(state=>state.app.selectedCountryLoading)
+    const error = useSelector(state=>state.app.selectedConutryError)
     const {countryIdName} = useParams()
     useEffect(()=>{
         dispatch(getSelectedCountry({case:'selectedCountry', parameters:countryIdName}))
     }, [countryIdName, dispatch])
 
     const { name, nativeName, population, region, subregion, capital, currencies, topLevelDomain, languages, flag } = info
-    return (
-        <Wrapper darkMode={darkMode}>
-            <img alt="flag" src={flag} />
-            <div>
-                <h1>{name}</h1>
+    if(loading){
+        return (
+            <h1>Loading...</h1>
+        )
+    }else if(error){
+        return(
+            <h1>Error</h1>
+        )
+    }else{
+        return (
+            <Wrapper darkMode={darkMode}>
+                <img alt="flag" src={flag} />
                 <div>
+                    <h1>{name}</h1>
                     <div>
-                        <span>
-                            <span>Native Name:</span>
-                            <p>{nativeName}</p>
-                        </span>
-                        <span>
-                            <span>Population:</span>
-                            <p>{population}</p>
-                        </span>
-                        <span>
-                            <span>Region:</span>
-                            <p>{region}</p>
-                        </span>
-                        <span>
-                            <span>Sub Region:</span>
-                            <p>{subregion}</p>
-                        </span>
-                        <span>
-                            <span>Capital:</span>
-                            <p>{capital}</p>
-                        </span>
+                        <div>
+                            <span>
+                                <span>Native Name:</span>
+                                <p>{nativeName}</p>
+                            </span>
+                            <span>
+                                <span>Population:</span>
+                                <p>{population}</p>
+                            </span>
+                            <span>
+                                <span>Region:</span>
+                                <p>{region}</p>
+                            </span>
+                            <span>
+                                <span>Sub Region:</span>
+                                <p>{subregion}</p>
+                            </span>
+                            <span>
+                                <span>Capital:</span>
+                                <p>{capital}</p>
+                            </span>
+                        </div>
+                        
+                        <div>
+                            <span>
+                                <span>Top Level Domain:</span>
+                                {topLevelDomain && topLevelDomain.map((e,index)=><p key={index}>{e}</p>)}
+                            </span>
+                            <span>
+                                <span>Currencies:</span>
+                                {currencies && currencies.map((e,index)=><p key={index}>{e.name}</p>)}
+                            </span>
+                            <span>
+                                <span>Languages:</span>
+                                {languages && languages.map((e,index)=><p key={index}>{e.name}</p>)}
+                            </span>
+                        </div> 
                     </div>
-                    
                     <div>
-                        <span>
-                            <span>Top Level Domain:</span>
-                            {topLevelDomain && topLevelDomain.map((e,index)=><p key={index}>{e}</p>)}
-                        </span>
-                        <span>
-                            <span>Currencies:</span>
-                            {currencies && currencies.map((e,index)=><p key={index}>{e.name}</p>)}
-                        </span>
-                        <span>
-                            <span>Languages:</span>
-                            {languages && languages.map((e,index)=><p key={index}>{e.name}</p>)}
-                        </span>
-                    </div> 
-                </div>
-                <div>
-                    <p>Border Countries:</p>
-                    <div>
-                        <span>France</span>
-                        <span>Germany</span>
-                        <span>Netherlands</span>
+                        <p>Border Countries:</p>
+                        <div>
+                            <span>France</span>
+                            <span>Germany</span>
+                            <span>Netherlands</span>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </Wrapper>
-    )
+            </Wrapper>
+        )
+    }
 }

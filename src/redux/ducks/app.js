@@ -2,11 +2,9 @@ export const SWITCH_STATE = 'app/switch_state'
 export const SET_FILTERS = 'app/set_filters'
 export const CHANGE_PAGE = 'app/change_page'
 export const ALL_COUNTRIES_REQUEST = 'app/all_countries_request'
-export const ALL_COUNTRIES_SUCCESS = 'app/all_countries_success'
-export const ALL_COUNTRIES_FAILURE = 'app/all_countries_failure'
 export const SELECTED_COUNTRY_REQUEST = 'app/selected_country_request'
-export const SELECTED_COUNTRY_SUCCESS = 'app/selected_country_success'
-export const SELECTED_COUNTRY_FAILURE = 'app/selected_country_failure'
+export const FETCH_COUNTRY_FAILURE = 'app/fetch_country_failure'
+export const FETCH_COUNTRY_SUCCESS = 'app/fetch_country_success'
 
 const initState = {
     allCountries: [],
@@ -36,38 +34,26 @@ const reducer = (state = initState, { type, payload }) =>{
             ...state, currentPage: payload
         }
 
+        case FETCH_COUNTRY_SUCCESS:return{
+            ...state,
+            [payload.loadingState]: false,
+            [payload.dataState]: payload.dataState==='allCountries' ? [...state.allCountries, ...payload.value] : payload.value,
+            [payload.errorState]: null
+        }
+        case FETCH_COUNTRY_FAILURE:return{
+            ...state,
+            [payload.loadingState]: false,
+            [payload.errorState]: payload
+        }
+
 
         case SELECTED_COUNTRY_REQUEST:return{
             ...state, selectedCountryLoading: true
         }
-        case SELECTED_COUNTRY_SUCCESS:return{
-            ...state,
-            selectedCountryLoading: false,
-            selectedConutry: payload,
-            selectedConutryError: null
-        }
-        case SELECTED_COUNTRY_FAILURE:return{
-            ...state,
-            selectedCountryLoading: false,
-            selectedConutryError: payload
-        }
-
 
         case ALL_COUNTRIES_REQUEST:return{
             ...state, allCountriesLoading: true
         }
-        case ALL_COUNTRIES_SUCCESS:return{
-            ...state,
-            allCountriesLoading: false,
-            allCountries: [...state.allCountries, ...payload],
-            allCountriesError: null
-        }
-        case ALL_COUNTRIES_FAILURE:return{
-            ...state,
-            allCountriesLoading: false,
-            allCountriesError: payload
-        }
-
 
         default: return state
     }

@@ -13,12 +13,12 @@ function fetchCountry(payload){
 }
 
 function* GetCountry({payload}) {
-    const usedTypes = payload.case === 'all' ? [ types.ALL_COUNTRIES_SUCCESS, types.ALL_COUNTRIES_FAILURE ] : [ types.SELECTED_COUNTRY_SUCCESS, types.SELECTED_COUNTRY_FAILURE ]
+    const usedState = payload.case === 'all' ? [ 'allCountriesLoading', 'allCountriesError', 'allCountries'] : [ 'selectedCountryLoading', 'selectedConutryError', 'selectedConutry']
     try{
         const allCountries = yield call(()=>fetchCountry(payload))
-        yield put({ type: usedTypes[0], payload: allCountries })
+        yield put({ type: types.FETCH_COUNTRY_SUCCESS, payload: {value: allCountries, loadingState: usedState[0], errorState: usedState[1], dataState: usedState[2]} })
     } catch(e){
-        yield put({ type: usedTypes[1], payload: e.message })
+        yield put({ type: types.FETCH_COUNTRY_FAILURE, payload: {value: e.message, loadingState: usedState[0], errorState: usedState[1]} })
     }
 }
 
