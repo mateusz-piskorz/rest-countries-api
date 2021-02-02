@@ -1,47 +1,30 @@
 import * as types from '../ducks/app'
 import { call, put, takeEvery, takeLatest } from 'redux-saga/effects'
 import axios from 'axios'
-//'https://restcountries.eu/rest/v2/all')
-//'https://restcountries.eu/rest/v2/name/{name}'
-//'https://restcountries.eu/rest/v2/region/${region}'
 
-function getAllCountries(regionName){
-    const apiUrl = `https://restcountries.eu/rest/v2/region/${regionName}`
+function fetchCountry(payload){
+    let apiUrl = payload.case === 'all' ? `https://restcountries.eu/rest/v2/region/${payload.parameters}` : `https://restcountries.eu/rest/v2/name/${payload.parameters}`
     return axios.get(apiUrl)
-    .then(res=>res.data)
+    .then(res=>{
+        const returnData = payload.case === 'all' ? res.data : res.data[0]
+        return returnData
+    })
     .catch(error=>{throw error})
 }
 
-function getSelectedCountry(countryName){
-    const apiUrl = `https://restcountries.eu/rest/v2/name/${countryName}`
-    return axios.get(apiUrl)
-    .then(res=>res.data)
-    .then(data=>data[0])
-    .catch(error=>{throw error})
-}
-
-function* fetchAllCountries({payload}) {
+function* GetCountry({payload}) {
+    const usedTypes = payload.case === 'all' ? [ types.ALL_COUNTRIES_SUCCESS, types.ALL_COUNTRIES_FAILURE ] : [ types.SELECTED_COUNTRY_SUCCESS, types.SELECTED_COUNTRY_FAILURE ]
     try{
-        const allCountries = yield call(()=>getAllCountries(payload))
-        yield put({ type: types.ALL_COUNTRIES_SUCCESS, payload: allCountries })
+        const allCountries = yield call(()=>fetchCountry(payload))
+        yield put({ type: usedTypes[0], payload: allCountries })
     } catch(e){
-        yield put({ type: types.ALL_COUNTRIES_FAILURE, payload: e.message })
+        yield put({ type: usedTypes[1], payload: e.message })
     }
 }
-
-function* fetchSelectedCountry({payload}) {
-    try{
-        const selectedCountry = yield call(()=>getSelectedCountry(payload))
-        yield put({ type: types.SELECTED_COUNTRY_SUCCESS, payload: selectedCountry })
-    } catch(e){
-        yield put({ type: types.SELECTED_COUNTRY_FAILURE, payload: e.message })
-    }
-}
-
 
 function* rootSaga() {
-    yield takeEvery(types.ALL_COUNTRIES_REQUEST, fetchAllCountries)
-    yield takeLatest(types.SELECTED_COUNTRY_REQUEST, fetchSelectedCountry)
+    yield takeEvery(types.ALL_COUNTRIES_REQUEST, GetCountry)
+    yield takeLatest(types.SELECTED_COUNTRY_REQUEST, GetCountry)
 }
 
 export default rootSaga

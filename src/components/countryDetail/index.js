@@ -112,7 +112,7 @@ export default function CountryDetail() {
     console.log(info)
     const {countryIdName} = useParams()
     useEffect(()=>{
-        dispatch(getSelectedCountry(countryIdName))
+        dispatch(getSelectedCountry({case:'selectedCountry', parameters:countryIdName}))
     }, [countryIdName, dispatch])
 
     const { name, nativeName, population, region, subregion, capital, currencies, topLevelDomain, languages, flag } = info

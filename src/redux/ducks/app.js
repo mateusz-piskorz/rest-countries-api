@@ -9,8 +9,8 @@ export const SELECTED_COUNTRY_SUCCESS = 'app/selected_country_success'
 export const SELECTED_COUNTRY_FAILURE = 'app/selected_country_failure'
 
 const initState = {
-    allCountriesLoading: false,
     allCountries: [],
+    allCountriesLoading: false,
     allCountriesError: null,
     selectedConutry: '',
     selectedConutryError: null,
@@ -67,6 +67,8 @@ const reducer = (state = initState, { type, payload }) =>{
             allCountriesLoading: false,
             allCountriesError: payload
         }
+
+
         default: return state
     }
 }

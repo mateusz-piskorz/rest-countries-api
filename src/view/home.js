@@ -12,7 +12,7 @@ export default function Home() {
     useEffect(()=>{
         if(fetching === false){
             if(regionTab[regionTabHelper]){
-                dispatch(getAllCountries(regionTab[regionTabHelper]))
+                dispatch(getAllCountries({case:'all', parameters:regionTab[regionTabHelper]}))
                 regionTabHelper++
             }
         }
